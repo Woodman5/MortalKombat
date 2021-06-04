@@ -1,38 +1,46 @@
+const $root = document.querySelector(".arenas");
+const $randomButton = document.querySelector(".button");
+
 const player1 = {
+  player: 1,
   name: "Scorpion",
-  hp: 74,
+  hp: 100,
   img: "http://reactmarathon-api.herokuapp.com/assets/scorpion.gif",
   weapon: ["Fist, Leg, Sword"],
-  attack: function () {
-    console.log("Scorpion" + " Fight...");
+  attack: function (name) {
+    console.log(name + " Fight...");
   },
 };
 
 const player2 = {
+  player: 2,
   name: "Subzero",
-  hp: 34,
+  hp: 100,
   img: "http://reactmarathon-api.herokuapp.com/assets/subzero.gif",
   weapon: ["Arm, Leg, Axe"],
-  attack: function () {
-    console.log("Subzero" + " Fight...");
+  attack: function (name) {
+    console.log(name + " Fight...");
   },
 };
 
-function createPlayer(className, player) {
-  const $root = document.querySelector(".arenas");
-  const $player = document.createElement("div");
-  const $progressbar = document.createElement("div");
-  const $character = document.createElement("div");
-  const $life = document.createElement("div");
-  const $name = document.createElement("div");
-  const $img = document.createElement("img");
+function createElement(tag, className) {
+  const $tag = document.createElement(tag);
+  if (className) {
+    $tag.classList.add(className);
+  }
 
-  $player.classList.add(className);
-  $progressbar.classList.add("progressbar");
-  $character.classList.add("character");
-  $life.classList.add("life");
-  $name.classList.add("name");
-  $name.innerText = player.name.toUpperCase();
+  return $tag;
+}
+
+function createPlayer(player) {
+  const $player = createElement("div", "player" + player.player);
+  const $progressbar = createElement("div", "progressbar");
+  const $character = createElement("div", "character");
+  const $life = createElement("div", "life");
+  const $name = createElement("div", "name");
+  const $img = createElement("img");
+
+  $name.innerText = player.name;
   $life.style.width = player.hp + "%";
   $img.src = player.img;
 
@@ -42,8 +50,46 @@ function createPlayer(className, player) {
   $progressbar.appendChild($name);
   $character.appendChild($img);
 
-  $root.appendChild($player);
+  return $player;
 }
 
-createPlayer("player1", player1);
-createPlayer("player2", player2);
+function randomNumber(range) {
+  return Math.ceil(Math.random() * range);
+}
+
+function changeHP(player) {
+  const $playerLife = document.querySelector(
+    ".player" + player.player + " .life"
+  );
+  player.hp -= randomNumber(20);
+  player.hp = player.hp < 0 ? 0 : player.hp;
+
+  $playerLife.style.width = player.hp + "%";
+
+  if (player.hp === 0) {
+    $root.appendChild(
+      playerWin(player.player === 1 ? player2.name : player1.name)
+    );
+    $randomButton.disabled = true;
+    $randomButton.style.background = "grey";
+  }
+
+  return player.hp;
+}
+
+function playerWin(name) {
+  const $winTitle = createElement("div", "winTitle");
+  $winTitle.innerText = name + " win";
+
+  return $winTitle;
+}
+
+$randomButton.addEventListener("click", function () {
+  const whoFirst = randomNumber(2);
+  if (changeHP(whoFirst === 1 ? player1 : player2)) {
+    changeHP(whoFirst === 1 ? player2 : player1);
+  }
+});
+
+$root.appendChild(createPlayer(player1));
+$root.appendChild(createPlayer(player2));
