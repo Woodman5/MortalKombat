@@ -10,6 +10,10 @@ const player1 = {
   attack: function (name) {
     console.log(name + " Fight...");
   },
+  changeHP: changeHP,
+  renderHP: renderHP,
+  elHP:elHP,
+  create: createPlayer
 };
 
 const player2 = {
@@ -21,6 +25,10 @@ const player2 = {
   attack: function (name) {
     console.log(name + " Fight...");
   },
+  changeHP: changeHP,
+  renderHP: renderHP,
+  elHP:elHP,
+  create: createPlayer
 };
 
 function createElement(tag, className) {
@@ -32,17 +40,17 @@ function createElement(tag, className) {
   return $tag;
 }
 
-function createPlayer(player) {
-  const $player = createElement("div", "player" + player.player);
+function createPlayer() {
+  const $player = createElement("div", "player" + this.player);
   const $progressbar = createElement("div", "progressbar");
   const $character = createElement("div", "character");
   const $life = createElement("div", "life");
   const $name = createElement("div", "name");
   const $img = createElement("img");
 
-  $name.innerText = player.name;
-  $life.style.width = player.hp + "%";
-  $img.src = player.img;
+  $name.innerText = this.name;
+  $life.style.width = this.hp + "%";
+  $img.src = this.img;
 
   $player.appendChild($progressbar);
   $player.appendChild($character);
@@ -57,39 +65,66 @@ function randomNumber(range) {
   return Math.ceil(Math.random() * range);
 }
 
-function changeHP(player) {
-  const $playerLife = document.querySelector(
-    ".player" + player.player + " .life"
-  );
-  player.hp -= randomNumber(20);
-  player.hp = player.hp < 0 ? 0 : player.hp;
-
-  $playerLife.style.width = player.hp + "%";
-
-  if (player.hp === 0) {
-    $root.appendChild(
-      playerWin(player.player === 1 ? player2.name : player1.name)
-    );
-    $randomButton.disabled = true;
-    $randomButton.style.background = "grey";
-  }
-
-  return player.hp;
+function elHP() {
+  return document.querySelector(".player" + this.player + " .life");
 }
 
-function playerWin(name) {
-  const $winTitle = createElement("div", "winTitle");
-  $winTitle.innerText = name + " win";
+function renderHP(lifeBar) {
+  lifeBar.style.width = this.hp + "%";
+}
 
+function changeHP(hp) {
+  this.hp = this.hp - hp < 0 ? 0 : this.hp - hp
+}
+
+function playerWins(name) {
+  const $winTitle = createElement("div", "winTitle");
+  $winTitle.innerText = name + " wins";
   return $winTitle;
+}
+
+function finishHim(num) {
+  $root.appendChild(
+      playerWins(num === 1 ? player2.name : player1.name)
+  );
+}
+
+function createReloadButton() {
+  const $reloadWrap = createElement("div", "reloadWrap");
+  const $reloadButton = createElement("button", "button");
+
+  $reloadButton.innerText = "Restart";
+
+  $reloadWrap.appendChild($reloadButton);
+  $root.appendChild($reloadWrap);
+
+  $reloadButton.addEventListener("click", function () {
+    window.location.reload()
+  })
+}
+
+function disableButton() {
+  $randomButton.disabled = true;
+  $randomButton.style.background = "grey";
+}
+
+function makeTurn(player) {
+  player.changeHP(randomNumber(20))
+  player.renderHP(player.elHP())
+  if (player.hp === 0) {
+    finishHim(player.player)
+    disableButton()
+    createReloadButton()
+  }
+  return player.hp
 }
 
 $randomButton.addEventListener("click", function () {
   const whoFirst = randomNumber(2);
-  if (changeHP(whoFirst === 1 ? player1 : player2)) {
-    changeHP(whoFirst === 1 ? player2 : player1);
+  if (makeTurn(whoFirst === 1 ? player1 : player2)) {
+    makeTurn(whoFirst === 1 ? player2 : player1);
   }
 });
 
-$root.appendChild(createPlayer(player1));
-$root.appendChild(createPlayer(player2));
+$root.appendChild(player1.create());
+$root.appendChild(player2.create());
