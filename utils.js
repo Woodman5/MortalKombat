@@ -1,0 +1,1 @@
+export const randomNumber = (range) => Math.ceil(Math.random() * range)
