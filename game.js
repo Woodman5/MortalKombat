@@ -1,23 +1,29 @@
 import { makeLog } from "./logs.js";
 import { randomNumber, createElement } from "./utils.js";
-import { playerMove, createPlayers } from "./player.js";
+// import { playerMove, createPlayers } from "./player.js";
+import Player from "./player/index.js";
+import { HIT, ATTACK } from "./constants.js";
 
 const $root = document.querySelector(".arenas");
 const $fightButton = document.querySelector(".button");
 
-let player1, player2;
+const player1 = new Player({
+  name: "Scorpion",
+  img: "scorpion.gif",
+});
+
+const player2 = new Player({
+  name: "Subzero",
+  img: "subzero.gif",
+});
+
+console.log(player1);
+console.log(player2);
 
 export function gameStart() {
   [player1, player2] = createPlayers($root);
   makeLog.call(player1, "start", player2.name);
 }
-
-const HIT = {
-  head: 30,
-  body: 25,
-  foot: 20,
-};
-const ATTACK = ["head", "body", "foot"];
 
 function enemyAttack() {
   const hit = ATTACK[randomNumber(3) - 1];
