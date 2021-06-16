@@ -1,0 +1,19 @@
+.attack, .lose {
+    color: red;
+}
+
+.defence {
+    color: orange;
+}
+
+.win {
+    color: greenyellow;
+}
+
+.players {
+    color: #f5d100;
+}
+
+.time {
+    color: cadetblue;
+}
