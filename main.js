@@ -1,10 +1,15 @@
-import { gameStart, play } from "./game.js";
+import Game from "./game"
 
-const $form = document.querySelector(".control");
+const player = {
+  name: "Scorpion",
+  img: "scorpion.gif",
+}
 
-gameStart();
+const enemy = {
+  name: "Subzero",
+  img: "subzero.gif",
+}
 
-$form.addEventListener("submit", function (e) {
-  e.preventDefault();
-  play($form);
-});
+const game =  new Game(player, enemy)
+
+game.start()
