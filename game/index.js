@@ -1,6 +1,7 @@
-import {makeLog} from "../logs"
-import {randomNumber, createElement, HIT, ATTACK} from "../utils"
-import Player from "../player"
+// Чтобы на Netlify работала игра нужно полные пути прописывать
+import {makeLog} from "../logs/index.js"
+import {randomNumber, createElement, HIT, ATTACK} from "../utils/index.js"
+import Player from "../player/index.js"
 
 
 class Game {

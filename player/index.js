@@ -1,4 +1,4 @@
-import { createElement } from "../utils"
+import { createElement } from "../utils/index.js"
 
 class Player {
   static player = 0

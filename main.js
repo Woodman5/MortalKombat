@@ -1,4 +1,4 @@
-import Game from "./game"
+import Game from "./game/index.js"
 
 const player = {
   name: "Scorpion",
@@ -10,6 +10,6 @@ const enemy = {
   img: "subzero.gif",
 }
 
-const game =  new Game(player, enemy)
+const game =  new Game({player, enemy})
 
 game.start()

@@ -1,4 +1,4 @@
-import { randomNumber, LOGS } from "../utils"
+import { randomNumber, LOGS } from "../utils/index.js"
 
 const $chat = document.querySelector(".chat")
 
