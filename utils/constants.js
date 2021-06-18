@@ -1,7 +1,12 @@
-import { randomNumber } from "./utils.js";
+export const HIT = {
+  head: 30,
+  body: 25,
+  foot: 20,
+}
 
-const $chat = document.querySelector(".chat");
-const logs = {
+export const ATTACK = ["head", "body", "foot"]
+
+export const LOGS = {
   start: "Часы показывали [time], когда [player1] и [player2] бросили вызов друг другу",
   end: [
     "Результат удара [playerWins]: [playerLose] - труп",
@@ -39,40 +44,4 @@ const logs = {
     "[playerKick] обманулся и жестокий [playerDefence] блокировал удар стопой в солнечное сплетение",
   ],
   draw: "Ничья - это тоже победа!",
-};
-
-function getCurrentTime() {
-  const numString = (num) => (num < 10 ? "0" + num : num);
-  const date = new Date();
-  return `<span class="time">${numString(date.getHours())}:${numString(date.getMinutes())}</span>`;
-}
-
-export function makeLog(messageType, name, value) {
-  let text = logs[messageType][randomNumber(logs[messageType].length) - 1];
-
-  switch (messageType) {
-    case "start":
-      text = `<p>${logs["start"]
-        .replace("[time]", getCurrentTime())
-        .replace("[player1]", "<span class='players' >" + this.name + "</span>")
-        .replace("[player2]", "<span class='players' >" + name + "</span>")}</p>`;
-      break;
-    case "draw":
-      text = `<p>${getCurrentTime()} &ndash; ${logs["draw"]}</p>`;
-      break;
-    case "end":
-      text = `<p>${getCurrentTime()} &ndash; ${text
-        .replace("[playerWins]", "<span class='win' >" + this.name + "</span>")
-        .replace("[playerLose]", "<span class='lose' >" + name + "</span>")}</p>`;
-      break;
-    case "hit":
-      text = `${text} -${value}HP [${this.hp}/100]`;
-    // Ответ на вопрос из ПР5. Тут break специально пропущен чтобы выполнился default.
-    default:
-      text = `<p>${getCurrentTime()} &ndash; ${text
-        .replace("[playerDefence]", "<span class='defence'>" + this.name + "</span>")
-        .replace("[playerKick]", "<span class='attack'>" + name + "</span>")}</p>`;
-    // Ответ на вопрос из ПР5. Никогда тут break не видел, зачем он тут нужен?
-  }
-  $chat.insertAdjacentHTML("afterbegin", text);
 }
