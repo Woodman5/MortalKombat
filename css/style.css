@@ -68,7 +68,7 @@ body {
 
 .arenas {
   width: 786px;
-  height: 50vh;
+  height: 60vh;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -325,7 +325,7 @@ form:invalid button[class="button"]:active::after {
 .control {
   position: absolute;
   width: 200px;
-  top: 60%;
+  top: 65%;
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;

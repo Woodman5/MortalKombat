@@ -2,12 +2,11 @@ import { createElement } from "../utils/index.js"
 
 class Player {
   static player = 0
-  basePath = "http://reactmarathon-api.herokuapp.com/assets/"
 
   constructor(props) {
     this.name = props.name
     this.hp = props.hp ? props.hp : 100
-    this.img = `${this.basePath + props.img}`
+    this.img = props.img
     this.selector = `player${++Player.player}`
     this.rootSelector = props.rootSelector ? props.rootSelector : "arenas"
   }
@@ -17,7 +16,6 @@ class Player {
   };
 
   renderHP = () => {
-    // надо ли удалить elHP и сделать тут селектор? Или лучше оставить как отдельную функцию чтоб не считать постоянно?
     this.elHP().style.width = `${this.hp}%`
   };
 
