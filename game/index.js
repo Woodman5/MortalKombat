@@ -1,4 +1,3 @@
-// Чтобы на Netlify работала игра нужно полные пути прописывать
 import {makeLog} from "../logs/index.js"
 import {randomNumber, createElement, HIT, ATTACK} from "../utils/index.js"
 import Player from "../player/index.js"
@@ -23,13 +22,11 @@ class Game {
     });
   }
 
-  play = () => {
-    const {value:enemyValue, hit:enemyHit, defence:enemyDef} = this.enemyAttack()
+  play = async () => {
     const attack = {}
 
     for (let item of this.form) {
       if (item.checked && item.name === "hit") {
-        attack.value = randomNumber(HIT[item.value])
         attack.hit = item.value;
       }
       if (item.checked && item.name === "defence") {
@@ -37,6 +34,11 @@ class Game {
       }
       item.checked = false;
     }
+
+    const attackData = await this.fetchAttack(attack)
+
+    attack.value = attackData['player1']['value']
+    const {value:enemyValue, hit:enemyHit, defence:enemyDef} = attackData['player2']
 
     if (attack.hit !== enemyDef) {
       this.playerMove(this.enemy, attack.value);
@@ -55,15 +57,11 @@ class Game {
     if (!this.player.hp || !this.enemy.hp) this.gameOver()
   }
 
-  enemyAttack = () => {
-    const hit = ATTACK[randomNumber(3) - 1]
-    const defence = ATTACK[randomNumber(3) - 1]
-
-    return {
-      value: randomNumber(HIT[hit]),
-      hit,
-      defence,
-    };
+  fetchAttack = async (attack) => {
+    return await fetch('http://reactmarathon-api.herokuapp.com/api/mk/player/fight', {
+      method: 'POST',
+      body: JSON.stringify(attack)
+    }).then(res => res.json())
   }
 
   playerMove = (player, hp) => {
