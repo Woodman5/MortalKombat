@@ -58,7 +58,7 @@ class Game {
   }
 
   fetchAttack = async (attack) => {
-    return await fetch('http://reactmarathon-api.herokuapp.com/api/mk/player/fight', {
+    return await fetch('https://reactmarathon-api.herokuapp.com/api/mk/player/fight', {
       method: 'POST',
       body: JSON.stringify(attack)
     }).then(res => res.json())
