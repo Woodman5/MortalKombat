@@ -52,7 +52,7 @@ async function init() {
             el.classList.add('active');
 
             setTimeout(() => {
-                window.location.pathname = 'MortalKombat/game.html';
+                window.location.pathname = 'game.html';
             }, 500);
         });
 
