@@ -106,7 +106,7 @@ class Game {
     this.root.appendChild($reloadWrap)
 
     $reloadButton.addEventListener("click", function () {
-      window.location.reload()
+      window.location.pathname = 'index.html'
     });
   }
 
