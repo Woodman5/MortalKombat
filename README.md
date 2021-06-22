@@ -4,7 +4,7 @@
 </p>
 
 <p align="center">
-![screenshot](https://raw.githubusercontent.com/Woodman5/MortalKombat/master/assets/mk-screenshot.jpg "game screenshot")
+  <img src="https://raw.githubusercontent.com/Woodman5/MortalKombat/master/assets/mk-screenshot.jpg">
 </p>
 
 
